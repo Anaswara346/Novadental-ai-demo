@@ -13,6 +13,8 @@
 
 Most private clinics lose potential patients when prospective patients visit websites outside business hours. NovaDental AI demonstrates how a website could engage visitors, answer pricing inquiries, qualify treatment interest, and capture booking requests in a staff dashboard. All clinic prices and lead records in this prototype are illustrative demo data, not verified rates or real patient information.
 
+Submitted demo leads persist in the current browser using `localStorage`, so they remain after refresh. They are not sent to a server and are not shared across browsers or devices.
+
 ---
 
 ## 🚀 Key Features

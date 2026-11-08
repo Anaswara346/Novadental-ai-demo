@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Sparkles, 
   Send, 
@@ -29,6 +29,22 @@ const formatPhoneForCall = (phoneValue) => {
   return digits ? `tel:+${digits}` : '#';
 };
 
+const loadStoredLeads = () => {
+  try {
+    const storedLeads = window.localStorage.getItem('novadental-demo-leads');
+    if (!storedLeads) return initialLeads;
+
+    const parsedLeads = JSON.parse(storedLeads);
+    if (Array.isArray(parsedLeads)) return parsedLeads;
+
+    console.error('Saved demo leads were invalid; using the sample records instead.');
+  } catch (error) {
+    console.error('Could not load saved demo leads from this browser.', error);
+  }
+
+  return initialLeads;
+};
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('website'); // 'website' | 'crm'
   const [chatOpen, setChatOpen] = useState(true);
@@ -43,7 +59,7 @@ export default function App() {
   const [isTyping, setIsTyping] = useState(false);
   
   // Lead state
-  const [leads, setLeads] = useState(initialLeads);
+  const [leads, setLeads] = useState(loadStoredLeads);
   const [currentLead, setCurrentLead] = useState({
     treatment: 'Dental Consultation',
     estimatedValue: '₹1,000'
@@ -55,6 +71,14 @@ export default function App() {
     preferredTime: 'Saturday 10:00 AM'
   });
   const [bookingSuccess, setBookingSuccess] = useState(false);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('novadental-demo-leads', JSON.stringify(leads));
+    } catch (error) {
+      console.error('Could not save demo leads in this browser.', error);
+    }
+  }, [leads]);
 
   // Quick prompt suggestions
   const quickPrompts = [
@@ -106,7 +130,7 @@ export default function App() {
       treatment: currentLead.treatment,
       estimatedValue: currentLead.estimatedValue,
       preferredTime: leadForm.preferredTime,
-      status: "Confirmed by AI",
+      status: "Demo Request Saved",
       capturedAt: "Just now",
       notes: "Auto-qualified via 24/7 AI Clinic Assistant"
     };
@@ -120,7 +144,7 @@ export default function App() {
       ...prev,
       {
         sender: 'ai',
-        text: `🎉 Thank you ${leadForm.name}! Your booking for ${currentLead.treatment} on ${leadForm.preferredTime} is confirmed. A clinic confirmation SMS has been dispatched to ${leadForm.phone}. Dr. Reynolds looks forward to welcoming you!`,
+        text: `Thanks, ${leadForm.name}! Your demo booking request for ${currentLead.treatment} on ${leadForm.preferredTime} has been saved in this browser's dashboard. This prototype does not confirm real appointments or send SMS messages.`,
         timestamp: 'Just now'
       }
     ]);
@@ -554,7 +578,7 @@ export default function App() {
               <div className="p-5 border-b border-slate-100 flex items-center justify-between">
                 <div>
                   <h3 className="font-bold text-slate-900 text-sm">Qualified Inbound Patients</h3>
-                  <p className="text-xs text-slate-400">Fictional demo records only; no real patient information is used.</p>
+                  <p className="text-xs text-slate-400">Fictional demo records are saved in this browser only; no real patient information is used.</p>
                 </div>
                 <span className="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">
                   Demo only · no calendar or PMS connection
@@ -648,7 +672,7 @@ export default function App() {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Mobile Phone (for SMS Confirmation)</label>
+                <label className="block font-semibold text-slate-700 mb-1">Mobile Phone (demo only; no SMS is sent)</label>
                 <input
                   type="tel"
                   required

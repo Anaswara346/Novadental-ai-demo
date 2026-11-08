@@ -19,7 +19,7 @@ Private healthcare and dental clinics invest in digital marketing to drive traff
 * Engages every website visitor instantly (under 1.5 second response time).
 * Demonstrates treatment responses using illustrative INR price ranges; these are not verified clinic rates.
 * Qualifies treatment interest, such as a clear aligner consultation or an emergency inquiry.
-* Demonstrates capturing a name, phone number, and preferred timeslot in an in-browser sample CRM dashboard. No real patient information or live CRM integration is used.
+* Demonstrates capturing a name, phone number, and preferred timeslot in an in-browser sample CRM dashboard. Demo leads persist in the current browser's local storage; they are not sent to a server or shared across devices. No real patient information or live CRM integration is used.
 
 ---
 
@@ -127,4 +127,4 @@ Return a JSON payload with:
 
 1. **Lead Capture Demonstration:** Shows how a website can collect sample lead details after-hours.
 2. **Simulated Response Time:** Displays a demo metric; it is not measured against a production system.
-3. **Sample CRM Dashboard:** Updates in-browser with fictional demo records and an illustrative pipeline value (₹1,30,800 from the initial sample leads); there is no live calendar or clinic-system synchronization.
+3. **Sample CRM Dashboard:** Updates in-browser with fictional demo records and an illustrative pipeline value (₹1,30,800 from the initial sample leads). Demo leads persist in that browser's local storage; there is no live calendar or clinic-system synchronization.
